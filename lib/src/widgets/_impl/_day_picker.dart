@@ -150,13 +150,14 @@ class _DayPickerState extends State<_DayPicker> {
     int day = -dayOffset;
     while (day < daysInMonth) {
       day++;
-      if (day < 1) {
+      if (day < 1 && !widget.config.showPreviousMonthDates) {
         dayItems.add(Container());
       } else {
         final DateTime dayToBuild = DateTime(year, month, day);
-        final bool isDisabled = dayToBuild.isAfter(widget.config.lastDate) ||
-            dayToBuild.isBefore(widget.config.firstDate) ||
-            !(widget.config.selectableDayPredicate?.call(dayToBuild) ?? true);
+        final bool isDisabled = day < 1
+            || dayToBuild.isAfter(widget.config.lastDate)
+            || dayToBuild.isBefore(widget.config.firstDate)
+            || !(widget.config.selectableDayPredicate?.call(dayToBuild) ?? true);
         final bool isSelectedDay =
             widget.selectedDates.any((d) => DateUtils.isSameDay(d, dayToBuild));
 
@@ -165,7 +166,22 @@ class _DayPickerState extends State<_DayPicker> {
 
         BoxDecoration? decoration;
         Color dayColor = enabledDayColor;
-        if (isSelectedDay) {
+
+        var tmpDay = day;
+        if (day < 1) {
+          final tmpYear = month == 1 
+            ? year - 1 
+            : year;
+          final tmpMonth = month == 1 
+              ? 12 
+              : month - 1;
+          final tmpDaysInMonth = DateUtils.getDaysInMonth(tmpYear, tmpMonth);
+          tmpDay = tmpDaysInMonth + day;
+        }
+
+        if (isDisabled) {
+          dayColor = disabledDayColor;
+        } else if (isSelectedDay) {
           // The selected day gets a circle background highlight, and a
           // contrasting text color.
           dayColor = selectedDayColor;
@@ -177,8 +193,6 @@ class _DayPickerState extends State<_DayPicker> {
                 ? BoxShape.rectangle
                 : BoxShape.circle,
           );
-        } else if (isDisabled) {
-          dayColor = disabledDayColor;
         } else if (isToday) {
           // The current day gets a different text color and a circle stroke
           // border.
@@ -248,7 +262,9 @@ class _DayPickerState extends State<_DayPicker> {
             _buildDefaultDayWidgetContent(
               decoration,
               localizations,
-              day,
+              widget.config.showPreviousMonthDates
+                  ? tmpDay
+                  : day,
               dayTextStyle,
             );
 

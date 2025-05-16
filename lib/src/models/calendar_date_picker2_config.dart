@@ -202,6 +202,9 @@ class CalendarDatePicker2Config {
     this.dayModeScrollDirection,
     this.selectedRangeHighlightBuilder,
     this.selectedRangeDecorationPredicate,
+    this.keepViewMode = false,
+    this.isScrollWithToggleButton = false,
+    this.showPreviousMonthDates = false,
   })  : calendarType = calendarType ?? CalendarDatePicker2Type.single,
         firstDate = DateUtils.dateOnly(firstDate ?? DateTime(1970)),
         lastDate =
@@ -223,6 +226,15 @@ class CalendarDatePicker2Config {
 
   /// The initially displayed view of the calendar picker.
   final CalendarDatePicker2Mode calendarViewMode;
+
+  /// Keep initial [calendarViewMode]
+  final bool keepViewMode;
+
+  /// Added a toggle button even for [CalendarDatePicker2Mode.scroll].
+  final bool isScrollWithToggleButton;
+
+  /// Display the previous month's dates to fill the empty spaces.
+  final bool showPreviousMonthDates;
 
   /// Custom weekday labels for the current locale, MUST starts from Sunday
   /// Examples:

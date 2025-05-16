@@ -231,6 +231,10 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
     _vibrate();
     setState(() {
       _mode = CalendarDatePicker2Mode.day;
+      if (widget.config.keepViewMode
+          && _mode != widget.config.calendarViewMode) {
+        _mode = widget.config.calendarViewMode;
+      }
       _handleDisplayedMonthDateChanged(value);
     });
   }
@@ -246,6 +250,10 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
 
     setState(() {
       _mode = CalendarDatePicker2Mode.day;
+      if (widget.config.keepViewMode
+          && _mode != widget.config.calendarViewMode) {
+        _mode = widget.config.calendarViewMode;
+      }
       _handleDisplayedMonthDateChanged(value, fromYearPicker: true);
     });
   }
@@ -293,6 +301,11 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
           }
 
           break;
+      }
+  
+      if (widget.config.keepViewMode
+        && _mode != widget.config.calendarViewMode) {
+        _mode = widget.config.calendarViewMode;
       }
 
       selectedDates
@@ -379,9 +392,7 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
         : _dayPickerRowHeight;
     final maxContentHeight = rowHeight * totalRowsCount;
 
-    return widget.config.calendarViewMode == CalendarDatePicker2Mode.scroll
-        ? _buildPicker()
-        : Stack(
+    return Stack(
             children: <Widget>[
               SizedBox(
                 height: (widget.config.controlsHeight ?? _subHeaderHeight) +
@@ -399,7 +410,9 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
                   } else {
                     _handleModeChanged(
                       _mode == CalendarDatePicker2Mode.month
-                          ? CalendarDatePicker2Mode.day
+                          ? widget.config.keepViewMode
+                              ? widget.config.calendarViewMode
+                              : CalendarDatePicker2Mode.day
                           : CalendarDatePicker2Mode.month,
                     );
                   }
@@ -410,7 +423,9 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
                   } else {
                     _handleModeChanged(
                       _mode == CalendarDatePicker2Mode.year
-                          ? CalendarDatePicker2Mode.day
+                          ? widget.config.keepViewMode
+                              ? widget.config.calendarViewMode
+                              : CalendarDatePicker2Mode.day
                           : CalendarDatePicker2Mode.year,
                     );
                   }
