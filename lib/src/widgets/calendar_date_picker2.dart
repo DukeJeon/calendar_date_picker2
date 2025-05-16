@@ -392,46 +392,51 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
         : _dayPickerRowHeight;
     final maxContentHeight = rowHeight * totalRowsCount;
 
-    return Stack(
-            children: <Widget>[
-              SizedBox(
-                height: (widget.config.controlsHeight ?? _subHeaderHeight) +
-                    maxContentHeight,
-                child: _buildPicker(),
-              ),
-              // Put the mode toggle button on top so that it won't be covered up by the _CalendarView
-              _DatePickerModeToggleButton(
-                config: widget.config,
-                mode: _mode,
-                monthDate: _currentDisplayedMonthDate,
-                onMonthPressed: () {
-                  if (_mode == CalendarDatePicker2Mode.year) {
-                    _handleModeChanged(CalendarDatePicker2Mode.month);
-                  } else {
-                    _handleModeChanged(
-                      _mode == CalendarDatePicker2Mode.month
-                          ? widget.config.keepViewMode
+    return widget.config.calendarViewMode == CalendarDatePicker2Mode.scroll
+        && !widget.config.isScrollWithToggleButton
+            ? _buildPicker()
+            : Stack(
+                children: <Widget>[
+                  widget.config.isScrollWithToggleButton
+                    ? _buildPicker()
+                    : SizedBox(
+                        height: (widget.config.controlsHeight ?? _subHeaderHeight) +
+                            maxContentHeight,
+                        child: _buildPicker(),
+                      ),
+                  // Put the mode toggle button on top so that it won't be covered up by the _CalendarView
+                  _DatePickerModeToggleButton(
+                    config: widget.config,
+                    mode: _mode,
+                    monthDate: _currentDisplayedMonthDate,
+                    onMonthPressed: () {
+                      if (_mode == CalendarDatePicker2Mode.year) {
+                        _handleModeChanged(CalendarDatePicker2Mode.month);
+                      } else {
+                        _handleModeChanged(
+                          widget.config.keepViewMode
                               ? widget.config.calendarViewMode
-                              : CalendarDatePicker2Mode.day
-                          : CalendarDatePicker2Mode.month,
-                    );
-                  }
-                },
-                onYearPressed: () {
-                  if (_mode == CalendarDatePicker2Mode.month) {
-                    _handleModeChanged(CalendarDatePicker2Mode.year);
-                  } else {
-                    _handleModeChanged(
-                      _mode == CalendarDatePicker2Mode.year
-                          ? widget.config.keepViewMode
+                              : _mode == CalendarDatePicker2Mode.month
+                                  ? CalendarDatePicker2Mode.day
+                                  : CalendarDatePicker2Mode.month,
+                        );
+                      }
+                    },
+                    onYearPressed: () {
+                      if (_mode == CalendarDatePicker2Mode.month) {
+                        _handleModeChanged(CalendarDatePicker2Mode.year);
+                      } else {
+                        _handleModeChanged(
+                          widget.config.keepViewMode
                               ? widget.config.calendarViewMode
-                              : CalendarDatePicker2Mode.day
-                          : CalendarDatePicker2Mode.year,
-                    );
-                  }
-                },
-              ),
-            ],
-          );
+                              : _mode == CalendarDatePicker2Mode.year
+                                  ? CalendarDatePicker2Mode.day
+                                  : CalendarDatePicker2Mode.year,
+                        );
+                      }
+                    },
+                  ),
+                ],
+              );
   }
 }

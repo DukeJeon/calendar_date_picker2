@@ -400,7 +400,9 @@ class _DayPickerState extends State<_DayPicker> {
       ),
       child: GridView.custom(
         padding: EdgeInsets.zero,
-        physics: const ClampingScrollPhysics(),
+        physics: widget.config.isScrollWithToggleButton
+            ? const NeverScrollableScrollPhysics()
+            :  const ClampingScrollPhysics(),
         gridDelegate: _DayPickerGridDelegate(
           config: widget.config,
           dayRowsCount: widget.dayRowsCount,

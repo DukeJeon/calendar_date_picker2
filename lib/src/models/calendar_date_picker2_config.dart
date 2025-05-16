@@ -202,9 +202,11 @@ class CalendarDatePicker2Config {
     this.dayModeScrollDirection,
     this.selectedRangeHighlightBuilder,
     this.selectedRangeDecorationPredicate,
+    /* Customized */
     this.keepViewMode = false,
     this.isScrollWithToggleButton = false,
     this.showPreviousMonthDates = false,
+    this.customModePickerBuilder,
   })  : calendarType = calendarType ?? CalendarDatePicker2Type.single,
         firstDate = DateUtils.dateOnly(firstDate ?? DateTime(1970)),
         lastDate =
@@ -226,15 +228,6 @@ class CalendarDatePicker2Config {
 
   /// The initially displayed view of the calendar picker.
   final CalendarDatePicker2Mode calendarViewMode;
-
-  /// Keep initial [calendarViewMode]
-  final bool keepViewMode;
-
-  /// Added a toggle button even for [CalendarDatePicker2Mode.scroll].
-  final bool isScrollWithToggleButton;
-
-  /// Display the previous month's dates to fill the empty spaces.
-  final bool showPreviousMonthDates;
 
   /// Custom weekday labels for the current locale, MUST starts from Sunday
   /// Examples:
@@ -445,6 +438,18 @@ class CalendarDatePicker2Config {
   /// Predicate to determine the day widget box decoration for a day in selected range
   final SelectedRangeDecorationPredicate? selectedRangeDecorationPredicate;
 
+  /* Customized */
+  /// Keep initial [calendarViewMode]
+  final bool keepViewMode;
+
+  /// Added a toggle button even for [CalendarDatePicker2Mode.scroll].
+  final bool isScrollWithToggleButton;
+
+  /// Display the previous month's dates to fill the empty spaces.
+  final bool showPreviousMonthDates;
+
+  final Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder;
+
   /// Copy the current [CalendarDatePicker2Config] with some new values
   CalendarDatePicker2Config copyWith({
     CalendarDatePicker2Type? calendarType,
@@ -518,6 +523,11 @@ class CalendarDatePicker2Config {
     Axis? dayModeScrollDirection,
     SelectedRangeHighlightBuilder? selectedRangeHighlightBuilder,
     SelectedRangeDecorationPredicate? selectedRangeDecorationPredicate,
+    /* Customized */
+    bool? keepViewMode,
+    bool? isScrollWithToggleButton,
+    bool? showPreviousMonthDates,
+    Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder,
   }) {
     return CalendarDatePicker2Config(
       calendarType: calendarType ?? this.calendarType,
@@ -621,6 +631,10 @@ class CalendarDatePicker2Config {
           selectedRangeHighlightBuilder ?? this.selectedRangeHighlightBuilder,
       selectedRangeDecorationPredicate: selectedRangeDecorationPredicate ??
           this.selectedRangeDecorationPredicate,
+      keepViewMode: keepViewMode ?? this.keepViewMode,
+      isScrollWithToggleButton: isScrollWithToggleButton ?? this.isScrollWithToggleButton,
+      showPreviousMonthDates: showPreviousMonthDates ?? this.showPreviousMonthDates,
+      customModePickerBuilder: customModePickerBuilder ?? this.customModePickerBuilder,
     );
   }
 }
@@ -700,6 +714,12 @@ class CalendarDatePicker2WithActionButtonsConfig
     Axis? dayModeScrollDirection,
     SelectedRangeHighlightBuilder? selectedRangeHighlightBuilder,
     SelectedRangeDecorationPredicate? selectedRangeDecorationPredicate,
+    /* Customized */
+    bool? keepViewMode,
+    bool? isScrollWithToggleButton,
+    bool? showPreviousMonthDates,
+    Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder,
+    /**************/
     this.gapBetweenCalendarAndButtons,
     this.cancelButtonTextStyle,
     this.cancelButton,
@@ -781,6 +801,10 @@ class CalendarDatePicker2WithActionButtonsConfig
           dayModeScrollDirection: dayModeScrollDirection,
           selectedRangeHighlightBuilder: selectedRangeHighlightBuilder,
           selectedRangeDecorationPredicate: selectedRangeDecorationPredicate,
+          keepViewMode: keepViewMode ?? false,
+          isScrollWithToggleButton: isScrollWithToggleButton ?? false,
+          showPreviousMonthDates: showPreviousMonthDates ?? false,
+          customModePickerBuilder: customModePickerBuilder,
         );
 
   /// The gap between calendar and action buttons
@@ -892,6 +916,11 @@ class CalendarDatePicker2WithActionButtonsConfig
     Axis? dayModeScrollDirection,
     SelectedRangeHighlightBuilder? selectedRangeHighlightBuilder,
     SelectedRangeDecorationPredicate? selectedRangeDecorationPredicate,
+
+    bool? keepViewMode,
+    bool? isScrollWithToggleButton,
+    bool? showPreviousMonthDates,
+    Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder,
   }) {
     return CalendarDatePicker2WithActionButtonsConfig(
       calendarType: calendarType ?? this.calendarType,
@@ -1008,6 +1037,10 @@ class CalendarDatePicker2WithActionButtonsConfig
           selectedRangeHighlightBuilder ?? this.selectedRangeHighlightBuilder,
       selectedRangeDecorationPredicate: selectedRangeDecorationPredicate ??
           this.selectedRangeDecorationPredicate,
+      keepViewMode: keepViewMode ?? this.keepViewMode,
+      isScrollWithToggleButton: isScrollWithToggleButton ?? this.isScrollWithToggleButton,
+      showPreviousMonthDates: showPreviousMonthDates ?? this.showPreviousMonthDates,
+      customModePickerBuilder: customModePickerBuilder ?? this.customModePickerBuilder,
     );
   }
 }

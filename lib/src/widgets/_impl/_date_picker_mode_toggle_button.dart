@@ -104,6 +104,13 @@ class _DatePickerModeToggleButtonState
       datePickerOffsetPadding /= 2;
     }
 
+    if (widget.config.customModePickerBuilder != null) {
+      return widget.config.customModePickerBuilder!(
+        widget.onYearPressed,
+        widget.onMonthPressed
+      );
+    }
+
     return Container(
       padding: widget.config.centerAlignModePicker == true
           ? EdgeInsets.zero
