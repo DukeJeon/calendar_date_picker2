@@ -402,7 +402,7 @@ class _DayPickerState extends State<_DayPicker> {
         padding: EdgeInsets.zero,
         physics: widget.config.isScrollWithToggleButton
             ? const NeverScrollableScrollPhysics()
-            :  const ClampingScrollPhysics(),
+            : const ClampingScrollPhysics(),
         gridDelegate: _DayPickerGridDelegate(
           config: widget.config,
           dayRowsCount: widget.dayRowsCount,

@@ -79,7 +79,7 @@ typedef MonthBuilder = Widget? Function({
 });
 
 /// Builder for the month and year in the scroll calendar view.
-typedef ScrollViewMonthYearBuilder = Widget Function(DateTime monthDate);
+typedef ScrollViewMonthYearBuilder = Widget Function(DateTime monthDate, Function? onYearPressed, Function? onMonthPressed);
 
 /// Builder for the mode picker widget
 ///
@@ -206,7 +206,6 @@ class CalendarDatePicker2Config {
     this.keepViewMode = false,
     this.isScrollWithToggleButton = false,
     this.showPreviousMonthDates = false,
-    this.customModePickerBuilder,
   })  : calendarType = calendarType ?? CalendarDatePicker2Type.single,
         firstDate = DateUtils.dateOnly(firstDate ?? DateTime(1970)),
         lastDate =
@@ -448,8 +447,6 @@ class CalendarDatePicker2Config {
   /// Display the previous month's dates to fill the empty spaces.
   final bool showPreviousMonthDates;
 
-  final Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder;
-
   /// Copy the current [CalendarDatePicker2Config] with some new values
   CalendarDatePicker2Config copyWith({
     CalendarDatePicker2Type? calendarType,
@@ -527,7 +524,6 @@ class CalendarDatePicker2Config {
     bool? keepViewMode,
     bool? isScrollWithToggleButton,
     bool? showPreviousMonthDates,
-    Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder,
   }) {
     return CalendarDatePicker2Config(
       calendarType: calendarType ?? this.calendarType,
@@ -634,7 +630,6 @@ class CalendarDatePicker2Config {
       keepViewMode: keepViewMode ?? this.keepViewMode,
       isScrollWithToggleButton: isScrollWithToggleButton ?? this.isScrollWithToggleButton,
       showPreviousMonthDates: showPreviousMonthDates ?? this.showPreviousMonthDates,
-      customModePickerBuilder: customModePickerBuilder ?? this.customModePickerBuilder,
     );
   }
 }
@@ -718,7 +713,6 @@ class CalendarDatePicker2WithActionButtonsConfig
     bool? keepViewMode,
     bool? isScrollWithToggleButton,
     bool? showPreviousMonthDates,
-    Widget Function(Function onYearPressed, Function onMonthPressed)? customModePickerBuilder,
     /**************/
     this.gapBetweenCalendarAndButtons,
     this.cancelButtonTextStyle,
@@ -804,7 +798,6 @@ class CalendarDatePicker2WithActionButtonsConfig
           keepViewMode: keepViewMode ?? false,
           isScrollWithToggleButton: isScrollWithToggleButton ?? false,
           showPreviousMonthDates: showPreviousMonthDates ?? false,
-          customModePickerBuilder: customModePickerBuilder,
         );
 
   /// The gap between calendar and action buttons
@@ -1040,7 +1033,6 @@ class CalendarDatePicker2WithActionButtonsConfig
       keepViewMode: keepViewMode ?? this.keepViewMode,
       isScrollWithToggleButton: isScrollWithToggleButton ?? this.isScrollWithToggleButton,
       showPreviousMonthDates: showPreviousMonthDates ?? this.showPreviousMonthDates,
-      customModePickerBuilder: customModePickerBuilder ?? this.customModePickerBuilder,
     );
   }
 }

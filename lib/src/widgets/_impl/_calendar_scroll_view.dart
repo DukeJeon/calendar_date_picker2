@@ -9,6 +9,8 @@ class _CalendarScrollView extends StatefulWidget {
     required this.selectedDates,
     required this.onChanged,
     required this.onDisplayedMonthChanged,
+    this.onYearPressed,
+    this.onMonthPressed,
     Key? key,
   }) : super(key: key);
 
@@ -28,6 +30,9 @@ class _CalendarScrollView extends StatefulWidget {
 
   /// Called when the user navigates to a new month.
   final ValueChanged<DateTime> onDisplayedMonthChanged;
+
+  final Function? onYearPressed;
+  final Function? onMonthPressed;
 
   @override
   _CalendarScrollViewState createState() => _CalendarScrollViewState();
@@ -119,7 +124,7 @@ class _CalendarScrollViewState extends State<_CalendarScrollView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        widget.config.scrollViewMonthYearBuilder?.call(month) ??
+        widget.config.scrollViewMonthYearBuilder?.call(month, widget.onYearPressed, widget.onMonthPressed) ??
             Row(
               children: [
                 if (widget.config.centerAlignModePicker == true) const Spacer(),

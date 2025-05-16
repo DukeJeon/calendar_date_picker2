@@ -363,6 +363,36 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
         return Container(
           constraints: widget.config.scrollViewConstraints,
           child: _CalendarScrollView(
+            onMonthPressed: widget.config.isScrollWithToggleButton
+                ? () {
+                    if (_mode == CalendarDatePicker2Mode.year) {
+                      _handleModeChanged(CalendarDatePicker2Mode.month);
+                    } else {
+                      _handleModeChanged(
+                        widget.config.keepViewMode
+                            ? widget.config.calendarViewMode
+                            : _mode == CalendarDatePicker2Mode.month
+                                ? CalendarDatePicker2Mode.day
+                                : CalendarDatePicker2Mode.month,
+                      );
+                    }
+                  }
+                : null,
+            onYearPressed: widget.config.isScrollWithToggleButton
+                ? () {
+                    if (_mode == CalendarDatePicker2Mode.month) {
+                      _handleModeChanged(CalendarDatePicker2Mode.year);
+                    } else {
+                      _handleModeChanged(
+                        widget.config.keepViewMode
+                            ? widget.config.calendarViewMode
+                            : _mode == CalendarDatePicker2Mode.year
+                                ? CalendarDatePicker2Mode.day
+                                : CalendarDatePicker2Mode.year,
+                      );
+                    }
+                  }
+                : null,
             config: widget.config,
             key: _dayPickerKey,
             initialMonth: _currentDisplayedMonthDate,
@@ -393,50 +423,49 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
     final maxContentHeight = rowHeight * totalRowsCount;
 
     return widget.config.calendarViewMode == CalendarDatePicker2Mode.scroll
-        && !widget.config.isScrollWithToggleButton
-            ? _buildPicker()
-            : Stack(
-                children: <Widget>[
-                  widget.config.isScrollWithToggleButton
-                    ? _buildPicker()
-                    : SizedBox(
-                        height: (widget.config.controlsHeight ?? _subHeaderHeight) +
-                            maxContentHeight,
-                        child: _buildPicker(),
-                      ),
-                  // Put the mode toggle button on top so that it won't be covered up by the _CalendarView
-                  _DatePickerModeToggleButton(
-                    config: widget.config,
-                    mode: _mode,
-                    monthDate: _currentDisplayedMonthDate,
-                    onMonthPressed: () {
-                      if (_mode == CalendarDatePicker2Mode.year) {
-                        _handleModeChanged(CalendarDatePicker2Mode.month);
-                      } else {
-                        _handleModeChanged(
-                          widget.config.keepViewMode
-                              ? widget.config.calendarViewMode
-                              : _mode == CalendarDatePicker2Mode.month
-                                  ? CalendarDatePicker2Mode.day
-                                  : CalendarDatePicker2Mode.month,
-                        );
-                      }
-                    },
-                    onYearPressed: () {
-                      if (_mode == CalendarDatePicker2Mode.month) {
-                        _handleModeChanged(CalendarDatePicker2Mode.year);
-                      } else {
-                        _handleModeChanged(
-                          widget.config.keepViewMode
-                              ? widget.config.calendarViewMode
-                              : _mode == CalendarDatePicker2Mode.year
-                                  ? CalendarDatePicker2Mode.day
-                                  : CalendarDatePicker2Mode.year,
-                        );
-                      }
-                    },
+        ? _buildPicker()
+        : Stack(
+            children: <Widget>[
+              widget.config.isScrollWithToggleButton
+                ? _buildPicker()
+                : SizedBox(
+                    height: (widget.config.controlsHeight ?? _subHeaderHeight) +
+                        maxContentHeight,
+                    child: _buildPicker(),
                   ),
-                ],
-              );
+              // Put the mode toggle button on top so that it won't be covered up by the _CalendarView
+              _DatePickerModeToggleButton(
+                config: widget.config,
+                mode: _mode,
+                monthDate: _currentDisplayedMonthDate,
+                onMonthPressed: () {
+                  if (_mode == CalendarDatePicker2Mode.year) {
+                    _handleModeChanged(CalendarDatePicker2Mode.month);
+                  } else {
+                    _handleModeChanged(
+                      widget.config.keepViewMode
+                          ? widget.config.calendarViewMode
+                          : _mode == CalendarDatePicker2Mode.month
+                              ? CalendarDatePicker2Mode.day
+                              : CalendarDatePicker2Mode.month,
+                    );
+                  }
+                },
+                onYearPressed: () {
+                  if (_mode == CalendarDatePicker2Mode.month) {
+                    _handleModeChanged(CalendarDatePicker2Mode.year);
+                  } else {
+                    _handleModeChanged(
+                      widget.config.keepViewMode
+                          ? widget.config.calendarViewMode
+                          : _mode == CalendarDatePicker2Mode.year
+                              ? CalendarDatePicker2Mode.day
+                              : CalendarDatePicker2Mode.year,
+                    );
+                  }
+                },
+              ),
+            ],
+          );
   }
 }
