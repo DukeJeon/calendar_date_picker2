@@ -851,7 +851,8 @@ class _MyHomePageState extends State<MyHomePage> {
       calendarType: CalendarDatePicker2Type.range,
       calendarViewMode: CalendarDatePicker2Mode.scroll,
       rangeBidirectional: true,
-      selectedDayHighlightColor: Colors.teal[800],
+      selectedDayHighlightColor: Color(0xFF00B9D2),
+      selectedRangeHighlightColor: Color(0xFF00B9D2),
       weekdayLabelTextStyle: const TextStyle(
         color: Colors.black87,
         fontWeight: FontWeight.bold,
